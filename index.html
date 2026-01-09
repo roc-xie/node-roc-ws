@@ -1,722 +1,634 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Network - Protect Earth</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>太阳系动画 - Solar System Animation</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #2e7d32;
-            --secondary: #4caf50;
-            --accent: #8bc34a;
-            --light: #e8f5e9;
-            --dark: #1b5e20;
-            --text: #333333;
-            --white: #ffffff;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--text);
-            line-height: 1.6;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
+        .solar-system {
+            position: relative;
+            width: 800px;
+            height: 800px;
             margin: 0 auto;
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 70%, #ff4500 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00;
+            animation: sunPulse 3s ease-in-out infinite alternate;
+            z-index: 10;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
+        @keyframes sunPulse {
+            from {
+                box-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00;
+            }
+            to {
+                box-shadow: 0 0 40px #ffd700, 0 0 80px #ff8c00, 0 0 100px #ff4500;
+            }
         }
 
-        .logo i {
-            font-size: 2rem;
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            transform-origin: 50% 50%;
         }
 
-        nav ul li {
-            margin-left: 2rem;
+        /* 水星轨道 Mercury */
+        .mercury-orbit {
+            width: 120px;
+            height: 120px;
+            animation: orbit 8s linear infinite;
         }
 
-        nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
+        .mercury {
+            width: 6px;
+            height: 6px;
+            background: #8c7853;
+            top: -3px;
+            left: 57px;
+        }
+
+        /* 金星轨道 Venus */
+        .venus-orbit {
+            width: 160px;
+            height: 160px;
+            animation: orbit 12s linear infinite;
+        }
+
+        .venus {
+            width: 10px;
+            height: 10px;
+            background: #ffc649;
+            top: -5px;
+            left: 75px;
+        }
+
+        /* 地球轨道 Earth */
+        .earth-orbit {
+            width: 200px;
+            height: 200px;
+            animation: orbit 16s linear infinite;
+        }
+
+        .earth {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #6b93d6 0%, #4d84c4 50%, #87ceeb 100%);
+            top: -6px;
+            left: 94px;
             position: relative;
         }
 
-        nav ul li a:hover {
-            color: var(--accent);
-        }
-
-        nav ul li a::after {
+        .earth::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--white);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
+            width: 3px;
+            height: 3px;
+            background: #c0c0c0;
+            border-radius: 50%;
+            top: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--accent);
-            border-radius: 2px;
+            animation: moonOrbit 2s linear infinite;
         }
 
-        .section-title p {
-            color: var(--text);
-            max-width: 700px;
-            margin: 0 auto;
+        @keyframes moonOrbit {
+            from { transform: translateX(-50%) rotate(0deg) translateX(10px) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg) translateX(10px) rotate(-360deg); }
         }
 
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+        /* 火星轨道 Mars */
+        .mars-orbit {
+            width: 260px;
+            height: 260px;
+            animation: orbit 24s linear infinite;
         }
 
-        .about-img {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .mars {
+            width: 8px;
+            height: 8px;
+            background: #cd5c5c;
+            top: -4px;
+            left: 126px;
         }
 
-        .about-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
+        /* 木星轨道 Jupiter */
+        .jupiter-orbit {
+            width: 360px;
+            height: 360px;
+            animation: orbit 40s linear infinite;
         }
 
-        .about-img:hover img {
-            transform: scale(1.05);
+        .jupiter {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #d8ca9d 0%, #fab92e 50%, #f4a460 100%);
+            top: -12px;
+            left: 168px;
         }
 
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
+        /* 土星轨道 Saturn */
+        .saturn-orbit {
+            width: 440px;
+            height: 440px;
+            animation: orbit 60s linear infinite;
         }
 
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem 1rem;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-10px);
-        }
-
-        .stat-item i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
-            color: var(--text);
-        }
-
-        .initiatives {
-            background-color: var(--white);
-        }
-
-        .initiatives-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .initiative-card {
-            background-color: var(--light);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .initiative-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .initiative-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .initiative-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .initiative-card:hover .initiative-img img {
-            transform: scale(1.1);
-        }
-
-        .initiative-content {
-            padding: 1.5rem;
-        }
-
-        .initiative-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .initiative-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .cta {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            text-align: center;
-            padding: 5rem 0;
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta .btn {
-            background-color: var(--white);
-            color: var(--primary);
-        }
-
-        .cta .btn:hover {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
+        .saturn {
+            width: 20px;
+            height: 20px;
+            background: #fad5a5;
+            top: -10px;
+            left: 210px;
             position: relative;
-            padding-bottom: 10px;
         }
 
-        .footer-column h3::after {
+        .saturn::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--accent);
-        }
-
-        .footer-column p {
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links li a {
-            color: var(--light);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-links li a:hover {
-            color: var(--accent);
-            padding-left: 5px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255, 215, 165, 0.6);
             border-radius: 50%;
-            color: var(--white);
-            text-decoration: none;
-            transition: all 0.3s ease;
+            top: -5px;
+            left: -5px;
+            transform: perspective(30px) rotateX(80deg);
         }
 
-        .social-links a:hover {
-            background-color: var(--accent);
-            transform: translateY(-5px);
+        /* 天王星轨道 Uranus */
+        .uranus-orbit {
+            width: 520px;
+            height: 520px;
+            animation: orbit 84s linear infinite;
         }
 
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .uranus {
+            width: 16px;
+            height: 16px;
+            background: #4fd0e4;
+            top: -8px;
+            left: 252px;
         }
 
-        .mobile-menu {
-            display: none;
-            font-size: 1.5rem;
+        /* 海王星轨道 Neptune */
+        .neptune-orbit {
+            width: 600px;
+            height: 600px;
+            animation: orbit 120s linear infinite;
+        }
+
+        .neptune {
+            width: 14px;
+            height: 14px;
+            background: #4b70dd;
+            top: -7px;
+            left: 293px;
+        }
+
+        @keyframes orbit {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* 星空背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 控制面板 */
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            z-index: 100;
+        }
+
+        .controls h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .control-group input {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .control-group button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
             cursor: pointer;
+            margin-right: 10px;
+            margin-top: 5px;
         }
 
-        @media (max-width: 992px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .initiatives-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .control-group button:hover {
+            background: #45a049;
         }
 
+        .control-group button.pause {
+            background: #ff9800;
+        }
+
+        .control-group button.pause:hover {
+            background: #e68900;
+        }
+
+        /* 行星信息 */
+        .planet-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-size: 12px;
+            z-index: 100;
+            max-width: 200px;
+        }
+
+        .planet-info h4 {
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .solar-system {
+                width: 90vw;
+                height: 90vw;
+                max-width: 600px;
+                max-height: 600px;
             }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--primary);
-                flex-direction: column;
-                padding: 1rem 0;
-                text-align: center;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            nav ul.active {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                padding: 0.8rem 0;
-            }
-            
-            .mobile-menu {
-                display: block;
-            }
-            
-            .initiatives-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
 
-        /* Animation for stats counter */
-        .counter {
-            transition: all 0.5s ease;
+            .controls {
+                font-size: 12px;
+                padding: 15px;
+            }
+
+            .planet-info {
+                font-size: 10px;
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fas fa-seedling"></i>
-                <span>Green Network</span>
-            </div>
-            <nav>
-                <div class="mobile-menu">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#initiatives">Initiatives</a></li>
-                    <li><a href="#get-involved">Get Involved</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="stars" id="stars"></div>
+    
+    <div class="controls">
+        <h3>太阳系控制面板</h3>
+        <div class="control-group">
+            <label>动画速度:</label>
+            <input type="range" id="speedControl" min="0.1" max="5" step="0.1" value="1">
+            <span id="speedValue">1x</span>
         </div>
-    </header>
+        <div class="control-group">
+            <button id="playPause">暂停动画</button>
+            <button id="reset">重置位置</button>
+        </div>
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="showOrbits" checked> 显示轨道
+            </label>
+        </div>
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="showLabels"> 显示行星名称
+            </label>
+        </div>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>Protect Our Planet, Preserve Our Future</h1>
-            <p>Join the global movement to create a sustainable world through conservation, education, and community action.</p>
-            <a href="#get-involved" class="btn">Join Our Network</a>
-        </div>
-    </section>
+    <div class="planet-info">
+        <h4>太阳系</h4>
+        <p>包含太阳和8大行星的动态模拟</p>
+        <br>
+        <p><strong>行星列表：</strong></p>
+        <p>• 水星 (Mercury)</p>
+        <p>• 金星 (Venus)</p>
+        <p>• 地球 (Earth) + 月球</p>
+        <p>• 火星 (Mars)</p>
+        <p>• 木星 (Jupiter)</p>
+        <p>• 土星 (Saturn) + 光环</p>
+        <p>• 天王星 (Uranus)</p>
+        <p>• 海王星 (Neptune)</p>
+    </div>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Green Network</h2>
-                <p>We are a global community dedicated to environmental protection and sustainable development.</p>
-            </div>
-            <div class="about-content">
-                <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Team planting trees">
-                </div>
-                <div class="about-text">
-                    <h3>Our Mission</h3>
-                    <p>Green Network is committed to creating a sustainable future by protecting natural ecosystems, promoting renewable energy, and empowering communities to take environmental action.</p>
-                    <p>Founded in 2010, we've grown from a small grassroots organization to an international network with over 50,000 members across 120 countries.</p>
-                    <p>Our approach combines scientific research, community engagement, and policy advocacy to address the most pressing environmental challenges of our time.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <i class="fas fa-tree"></i>
-                    <h3 class="counter" data-target="2500000">0</h3>
-                    <p>Trees Planted</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-users"></i>
-                    <h3 class="counter" data-target="50000">0</h3>
-                    <p>Active Members</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-globe-americas"></i>
-                    <h3 class="counter" data-target="120">0</h3>
-                    <p>Countries Reached</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-recycle"></i>
-                    <h3 class="counter" data-target="1500">0</h3>
-                    <p>Cleanup Projects</p>
-                </div>
-            </div>
+    <div class="solar-system">
+        <div class="sun"></div>
+        
+        <!-- 水星 Mercury -->
+        <div class="orbit mercury-orbit">
+            <div class="planet mercury" data-planet="水星"></div>
         </div>
-    </section>
-
-    <!-- Initiatives Section -->
-    <section class="initiatives" id="initiatives">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Initiatives</h2>
-                <p>Discover the key programs and projects we're implementing to protect our planet.</p>
-            </div>
-            <div class="initiatives-grid">
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://dialogue.earth/content/uploads/2021/04/lessons-from-the-rush-to-reforest-china-dialogue-2400x1599.jpg" alt="Reforestation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Global Reforestation</h3>
-                        <p>Planting millions of trees worldwide to restore ecosystems, combat climate change, and protect biodiversity.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Ocean Conservation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Ocean Conservation</h3>
-                        <p>Protecting marine ecosystems, reducing plastic pollution, and promoting sustainable fishing practices.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Renewable Energy">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Renewable Energy</h3>
-                        <p>Promoting solar, wind, and other clean energy sources to reduce dependence on fossil fuels.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-            </div>
+        
+        <!-- 金星 Venus -->
+        <div class="orbit venus-orbit">
+            <div class="planet venus" data-planet="金星"></div>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta" id="get-involved">
-        <div class="container">
-            <h2>Join Our Global Movement</h2>
-            <p>Together, we can create a sustainable future for generations to come. Every action counts, no matter how small.</p>
-            <a href="#" class="btn">Become a Member</a>
+        
+        <!-- 地球 Earth -->
+        <div class="orbit earth-orbit">
+            <div class="planet earth" data-planet="地球"></div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Green Network</h3>
-                    <p>We are dedicated to protecting our planet through collaborative action, education, and sustainable solutions.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#initiatives">Initiatives</a></li>
-                        <li><a href="#get-involved">Get Involved</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Our Programs</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Reforestation</a></li>
-                        <li><a href="#">Ocean Cleanup</a></li>
-                        <li><a href="#">Wildlife Protection</a></li>
-                        <li><a href="#">Climate Education</a></li>
-                        <li><a href="#">Sustainable Agriculture</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Copper Creek Drive, New York</p>
-                    <p><i class="fas fa-phone"></i> +1 (312) 171-0771</p>
-                    <p><i class="fas fa-envelope"></i> support@greennetwork.org</p>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Green Network. All rights reserved.</p>
-            </div>
+        
+        <!-- 火星 Mars -->
+        <div class="orbit mars-orbit">
+            <div class="planet mars" data-planet="火星"></div>
         </div>
-    </footer>
+        
+        <!-- 木星 Jupiter -->
+        <div class="orbit jupiter-orbit">
+            <div class="planet jupiter" data-planet="木星"></div>
+        </div>
+        
+        <!-- 土星 Saturn -->
+        <div class="orbit saturn-orbit">
+            <div class="planet saturn" data-planet="土星"></div>
+        </div>
+        
+        <!-- 天王星 Uranus -->
+        <div class="orbit uranus-orbit">
+            <div class="planet uranus" data-planet="天王星"></div>
+        </div>
+        
+        <!-- 海王星 Neptune -->
+        <div class="orbit neptune-orbit">
+            <div class="planet neptune" data-planet="海王星"></div>
+        </div>
+    </div>
 
     <script>
-        // Mobile Menu Toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('nav ul').classList.toggle('active');
-        });
+        // 太阳系动画控制系统
+        class SolarSystemController {
+            constructor() {
+                this.isPlaying = true;
+                this.currentSpeed = 1;
+                this.orbits = document.querySelectorAll('.orbit');
+                this.planets = document.querySelectorAll('.planet');
+                this.sun = document.querySelector('.sun');
+                
+                this.initializeControls();
+                this.createStars();
+                this.addPlanetHoverEffects();
+            }
 
-        // Counter Animation
-        function animateCounters() {
-            const counters = document.querySelectorAll('.counter');
-            const speed = 200; // The lower the slower
-            
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
+            // 初始化控制面板
+            initializeControls() {
+                const speedControl = document.getElementById('speedControl');
+                const speedValue = document.getElementById('speedValue');
+                const playPause = document.getElementById('playPause');
+                const reset = document.getElementById('reset');
+                const showOrbits = document.getElementById('showOrbits');
+                const showLabels = document.getElementById('showLabels');
+
+                // 速度控制
+                speedControl.addEventListener('input', (e) => {
+                    this.currentSpeed = parseFloat(e.target.value);
+                    speedValue.textContent = `${this.currentSpeed}x`;
+                    this.updateAnimationSpeed();
+                });
+
+                // 播放/暂停控制
+                playPause.addEventListener('click', () => {
+                    this.toggleAnimation();
+                    playPause.textContent = this.isPlaying ? '暂停动画' : '播放动画';
+                    playPause.className = this.isPlaying ? '' : 'pause';
+                });
+
+                // 重置按钮
+                reset.addEventListener('click', () => {
+                    this.resetPlanets();
+                });
+
+                // 显示轨道控制
+                showOrbits.addEventListener('change', (e) => {
+                    this.toggleOrbits(e.target.checked);
+                });
+
+                // 显示标签控制
+                showLabels.addEventListener('change', (e) => {
+                    this.toggleLabels(e.target.checked);
+                });
+            }
+
+            // 更新动画速度
+            updateAnimationSpeed() {
+                const root = document.documentElement;
+                root.style.setProperty('--animation-speed', this.currentSpeed);
                 
-                const inc = target / speed;
-                
-                if(count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(animateCounters, 1);
-                } else {
-                    counter.innerText = target;
+                this.orbits.forEach((orbit, index) => {
+                    const baseDuration = [8, 12, 16, 24, 40, 60, 84, 120][index];
+                    const newDuration = baseDuration / this.currentSpeed;
+                    orbit.style.animationDuration = `${newDuration}s`;
+                });
+
+                // 更新太阳脉冲和月球轨道
+                this.sun.style.animationDuration = `${3 / this.currentSpeed}s`;
+                const earth = document.querySelector('.earth');
+                if (earth) {
+                    earth.style.setProperty('--moon-duration', `${2 / this.currentSpeed}s`);
                 }
-            });
+            }
+
+            // 切换动画播放状态
+            toggleAnimation() {
+                this.isPlaying = !this.isPlaying;
+                const animationState = this.isPlaying ? 'running' : 'paused';
+                
+                this.orbits.forEach(orbit => {
+                    orbit.style.animationPlayState = animationState;
+                });
+                this.sun.style.animationPlayState = animationState;
+            }
+
+            // 重置行星位置
+            resetPlanets() {
+                this.orbits.forEach(orbit => {
+                    orbit.style.animation = 'none';
+                    orbit.offsetHeight; // 触发重排
+                    orbit.style.animation = null;
+                });
+                this.updateAnimationSpeed();
+            }
+
+            // 切换轨道显示
+            toggleOrbits(show) {
+                this.orbits.forEach(orbit => {
+                    orbit.style.borderColor = show ? 'rgba(255, 255, 255, 0.1)' : 'transparent';
+                });
+            }
+
+            // 切换标签显示
+            toggleLabels(show) {
+                this.planets.forEach(planet => {
+                    if (show && !planet.querySelector('.planet-label')) {
+                        const label = document.createElement('div');
+                        label.className = 'planet-label';
+                        label.textContent = planet.dataset.planet;
+                        label.style.cssText = `
+                            position: absolute;
+                            top: -25px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            color: white;
+                            font-size: 10px;
+                            background: rgba(0, 0, 0, 0.7);
+                            padding: 2px 6px;
+                            border-radius: 3px;
+                            white-space: nowrap;
+                            pointer-events: none;
+                        `;
+                        planet.appendChild(label);
+                    } else if (!show) {
+                        const label = planet.querySelector('.planet-label');
+                        if (label) label.remove();
+                    }
+                });
+            }
+
+            // 创建星空背景
+            createStars() {
+                const starsContainer = document.getElementById('stars');
+                const starCount = 200;
+
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.animationDelay = Math.random() * 3 + 's';
+                    star.style.opacity = Math.random() * 0.8 + 0.2;
+                    starsContainer.appendChild(star);
+                }
+            }
+
+            // 添加行星悬停效果
+            addPlanetHoverEffects() {
+                this.planets.forEach(planet => {
+                    planet.addEventListener('mouseenter', () => {
+                        planet.style.transform = 'scale(1.5)';
+                        planet.style.transition = 'transform 0.3s ease';
+                        planet.style.zIndex = '50';
+                        
+                        // 显示行星信息
+                        this.showPlanetInfo(planet.dataset.planet);
+                    });
+
+                    planet.addEventListener('mouseleave', () => {
+                        planet.style.transform = 'scale(1)';
+                        planet.style.zIndex = '1';
+                    });
+                });
+            }
+
+            // 显示行星详细信息
+            showPlanetInfo(planetName) {
+                const planetData = {
+                    '水星': { distance: '0.39 AU', period: '88天', temp: '167°C' },
+                    '金星': { distance: '0.72 AU', period: '225天', temp: '464°C' },
+                    '地球': { distance: '1.00 AU', period: '365天', temp: '15°C' },
+                    '火星': { distance: '1.52 AU', period: '687天', temp: '-65°C' },
+                    '木星': { distance: '5.20 AU', period: '12年', temp: '-110°C' },
+                    '土星': { distance: '9.58 AU', period: '29年', temp: '-140°C' },
+                    '天王星': { distance: '19.2 AU', period: '84年', temp: '-195°C' },
+                    '海王星': { distance: '30.1 AU', period: '165年', temp: '-200°C' }
+                };
+
+                const info = planetData[planetName];
+                const infoPanel = document.querySelector('.planet-info');
+                
+                if (info) {
+                    infoPanel.innerHTML = `
+                        <h4>${planetName}</h4>
+                        <p><strong>距离太阳:</strong> ${info.distance}</p>
+                        <p><strong>公转周期:</strong> ${info.period}</p>
+                        <p><strong>平均温度:</strong> ${info.temp}</p>
+                    `;
+                }
+            }
         }
 
-        // Initialize counters when page loads
-        window.addEventListener('load', animateCounters);
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    document.querySelector('nav ul').classList.remove('active');
-                }
-            });
+        // 初始化太阳系动画
+        document.addEventListener('DOMContentLoaded', () => {
+            new SolarSystemController();
         });
+
+        // 添加月球轨道动画的CSS变量支持
+        document.documentElement.style.setProperty('--moon-duration', '2s');
     </script>
 </body>
-
 </html>
